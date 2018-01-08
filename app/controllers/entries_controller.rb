@@ -4,32 +4,39 @@ class EntriesController < ApplicationController
   # GET /entries
   # GET /entries.json
   def index
-    @entries = Entry.all
+    list = List.find(params[:list_id])
+    @entries = list.entries
   end
 
   # GET /entries/1
   # GET /entries/1.json
   def show
+    list = List.find(params[:list_id])
+    @entry = list.entries.find(params[:id])
   end
 
   # GET /entries/new
   def new
-    @entry = Entry.new
+    list = List.find(params[:list_id])
+    @entry = list.entries.build
   end
 
   # GET /entries/1/edit
   def edit
+    list = List.find(params[:list_id])
+    @entry = list.entries.find(params[:id])
   end
 
   # POST /entries
   # POST /entries.json
   def create
-    @entry = Entry.new(entry_params)
+    list = List.find(params[:list_id])
+    @entry = list.entries.create(params[:entry])
 
     respond_to do |format|
       if @entry.save
-        format.html { redirect_to @entry, notice: 'Entry was successfully created.' }
-        format.json { render :show, status: :created, location: @entry }
+        format.html { redirect_to @list, notice: 'Entry was successfully created.' }
+        format.json { render :show, status: :created, location: @list_entry }
       else
         format.html { render :new }
         format.json { render json: @entry.errors, status: :unprocessable_entity }
@@ -42,8 +49,8 @@ class EntriesController < ApplicationController
   def update
     respond_to do |format|
       if @entry.update(entry_params)
-        format.html { redirect_to @entry, notice: 'Entry was successfully updated.' }
-        format.json { render :show, status: :ok, location: @entry }
+        format.html { redirect_to @list, notice: 'Entry was successfully updated.' }
+        format.json { render :show, status: :ok, location: @list_entry }
       else
         format.html { render :edit }
         format.json { render json: @entry.errors, status: :unprocessable_entity }
@@ -56,7 +63,7 @@ class EntriesController < ApplicationController
   def destroy
     @entry.destroy
     respond_to do |format|
-      format.html { redirect_to entries_url, notice: 'Entry was successfully destroyed.' }
+      format.html { redirect_to list_url, notice: 'Entry was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
