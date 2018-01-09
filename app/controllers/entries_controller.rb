@@ -12,13 +12,12 @@ class EntriesController < ApplicationController
   # GET /entries/1.json
   def show
     list = List.find(params[:list_id])
-    @entry = list.entries.find(params[:id])
+    @entry = list.entries.find_by_id(params[:id])
   end
 
   # GET /entries/new
   def new
-    list = List.find(params[:list_id])
-    @entry = list.entries.build
+    @entry = Entry.new
   end
 
   # GET /entries/1/edit
@@ -30,8 +29,7 @@ class EntriesController < ApplicationController
   # POST /entries
   # POST /entries.json
   def create
-    list = List.find(params[:list_id])
-    @entry = list.entries.create(params[:entry])
+    @entry = list.entries.build(params[:entry])
 
     respond_to do |format|
       if @entry.save

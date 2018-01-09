@@ -6,6 +6,9 @@
   </div>
 
   <div class="list_body">
+
+  <%= render partial: 'entries/list-entries' %>
+
     <div class="actions">
       <%= link_to 'Edit', edit_list_path(@list) %> |
       <%= link_to 'Back', lists_path %>
