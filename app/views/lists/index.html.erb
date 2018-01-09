@@ -7,6 +7,7 @@
         <h4><%= link_to list.name, list %></h4>
       </div>
       <div class="list_body">
+        <%= render partial: 'entries/list-entries' %>
         <%= link_to 'Edit', edit_list_path(list) %></td>
         <%= link_to 'Destroy', list, method: :delete, data: { confirm: 'Are you sure?' } %>
         </div>
