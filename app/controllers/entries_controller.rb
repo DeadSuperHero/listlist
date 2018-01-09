@@ -17,6 +17,7 @@ class EntriesController < ApplicationController
 
   # GET /entries/new
   def new
+    list = List.find(params[:list_id])
     @entry = Entry.new
   end
 
@@ -34,7 +35,7 @@ class EntriesController < ApplicationController
     respond_to do |format|
       if @entry.save
         format.html { redirect_to @list, notice: 'Entry was successfully created.' }
-        format.json { render :show, status: :created, location: @list_entry }
+        format.json { render :show, status: :created, location: @list }
       else
         format.html { render :new }
         format.json { render json: @entry.errors, status: :unprocessable_entity }
@@ -48,7 +49,7 @@ class EntriesController < ApplicationController
     respond_to do |format|
       if @entry.update(entry_params)
         format.html { redirect_to @list, notice: 'Entry was successfully updated.' }
-        format.json { render :show, status: :ok, location: @list_entry }
+        format.json { render :show, status: :ok, location: @list }
       else
         format.html { render :edit }
         format.json { render json: @entry.errors, status: :unprocessable_entity }
